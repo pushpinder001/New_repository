@@ -1,42 +1,40 @@
 #include <iostream>
 using namespace std;
-struct node{
-	int val;
-	node *next;
+class list{
+	struct node{
+		int val;
+		node *next;
+	};
+	node *head;
+	node *create_node(int val);
+	node *insert_beg(node* ,int);
+	public :
+	list(){
+		head=NULL;
+	}
+	void insert(int ,int);
+	void print(void);
 };
-node* insert_b(node *head,int val){
-	node* temp=new node;
-	temp->val=val;
-	temp->next=head;
-	head=temp;
-	return head;
-}
-node *insert_l(node *head,int val){
+list::node* list::create_node(int val){
 	node* temp=new node;
 	temp->val=val;
 	temp->next=NULL;
-	if(head==NULL){
-		head=temp;
-		return head;
-	}
-	node *prev,*trav=head;
-	while(trav!=NULL)
-	{
-		prev=trav;
-		trav=trav->next;
-	}
-	prev->next=temp;
-	return head;
+	return temp;
 }
-node *insert_n(node* head,int val,int pos){
+list::node* list::insert_beg(node *trav,int val){
+	node *temp=create_node(val);
+	temp->next=trav;
+	return temp;
+}
+void list::insert(int val,int pos){
 	if(pos<0)
 	{
 		cout<<"Node cannot be inserted\n";
-		return head;
 	}
 	if(pos==0)
 	{
-		return insert_b(head,val);
+		head=insert_beg(head,val);
+		return ;
 	}
 	node *prev,*trav=head;
 	while(pos!=0)
@@ -44,29 +42,28 @@ node *insert_n(node* head,int val,int pos){
 		if(trav==NULL)
 		{
 			cout<<"Node cannot be inserted\n";
-			return head;
+			return ;
 		}
 		prev=trav;
 		trav=trav->next;
 		pos--;
 	}
-	prev->next=insert_b(trav,val);
-	return head;
+	prev->next=insert_beg(trav,val);
 }
-void print(node* head){
-	while(head!=NULL)
+void list::print(void ){
+	node *temp=head;
+	while(temp!=NULL)
 	{
-		cout<<head->val<<' ';
-		head=head->next;
+		cout<<temp->val<<' ';
+		temp=temp->next;
 	}
 	cout<<endl;
 }
 int main() {
-	node* head=NULL;
+	list l1;
 	for(int i=1;i<=5;i++){
-		head=insert_l(head,i);
+		l1.insert(i,0);
 	}
-	head=insert_n(head,2334,5);
-	print(head);
+	l1.print();
 	return 0;
 }
