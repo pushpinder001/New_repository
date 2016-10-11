@@ -6,6 +6,7 @@ class list{
 		node *next;
 	};
 	node *head;
+	node *del_beg(node*);
 	node *create_node(int val);
 	node *insert_beg(node* ,int);
 	public :
@@ -13,6 +14,7 @@ class list{
 		head=NULL;
 	}
 	void insert(int ,int);
+	void del(int);
 	void print(void);
 };
 list::node* list::create_node(int val){
@@ -24,6 +26,16 @@ list::node* list::create_node(int val){
 list::node* list::insert_beg(node *trav,int val){
 	node *temp=create_node(val);
 	temp->next=trav;
+	return temp;
+}
+list::node* list::del_beg(node* trav){
+	if(trav==NULL)
+	{
+		cout<<"Node cannot be deleted\n";
+		return trav;
+	}
+	node *temp=trav->next;
+	delete trav;
 	return temp;
 }
 void list::insert(int val,int pos){
@@ -50,6 +62,28 @@ void list::insert(int val,int pos){
 	}
 	prev->next=insert_beg(trav,val);
 }
+
+void list::del(int pos){
+	if(pos==0)
+	{
+		head=del_beg(head);
+		return ;
+	}
+	node *prev,*trav=head;
+	while(pos!=0)
+	{
+		if(trav==NULL)
+		{
+			cout<<"Node cannot be deleted\n";
+			return;
+		}
+		prev=trav;
+		trav=trav->next;
+		pos--;
+	}
+	prev->next=del_beg(trav);
+	return;
+}
 void list::print(void ){
 	node *temp=head;
 	while(temp!=NULL)
@@ -64,6 +98,7 @@ int main() {
 	for(int i=1;i<=5;i++){
 		l1.insert(i,0);
 	}
+	l1.del(2);
 	l1.print();
 	return 0;
 }
