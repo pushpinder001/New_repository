@@ -28,6 +28,31 @@ node *insert_l(node *head,int val){
 	prev->next=temp;
 	return head;
 }
+node *insert_n(node* head,int val,int pos){
+	if(pos<0)
+	{
+		cout<<"Node cannot be inserted\n";
+		return head;
+	}
+	if(pos==0)
+	{
+		return insert_b(head,val);
+	}
+	node *prev,*trav=head;
+	while(pos!=0)
+	{
+		if(trav==NULL)
+		{
+			cout<<"Node cannot be inserted\n";
+			return head;
+		}
+		prev=trav;
+		trav=trav->next;
+		pos--;
+	}
+	prev->next=insert_b(trav,val);
+	return head;
+}
 void print(node* head){
 	while(head!=NULL)
 	{
@@ -41,6 +66,7 @@ int main() {
 	for(int i=1;i<=5;i++){
 		head=insert_l(head,i);
 	}
+	head=insert_n(head,2334,5);
 	print(head);
 	return 0;
 }
